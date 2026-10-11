@@ -5,6 +5,7 @@ PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
 - [BOOKING URL]  (intro "book a call directly" link)
 - [FORM ENDPOINT]  (form action below)
 - [RANGE 1], [RANGE 2], [RANGE 3], [RANGE 4]  (budget select options)
+- company_website honeypot (hidden input; must stay empty)
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +49,7 @@ PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
         </div>
 
         <form class="contact-form" id="contact-form" action="[FORM ENDPOINT]" method="POST" novalidate>
+          <input type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px">
           <div class="field">
             <label for="name">Name <span aria-hidden="true">*</span></label>
             <input type="text" id="name" name="name" autocomplete="name" required>
@@ -84,6 +86,7 @@ PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
           </div>
 
           <button class="btn btn-primary" type="submit">Send inquiry</button>
+          <p class="error" id="form-error" role="alert"></p>
           <p class="form-success" id="form-success" role="status" hidden>Thanks. We've received your inquiry and will reply within two business days.</p>
         </form>
       </div>
