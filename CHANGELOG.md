@@ -616,3 +616,31 @@ Local server sending the headers from `vercel.json`, headless Chromium (Playwrig
 - **Production headers.** Checked against a local server that mimics `vercel.json`, not against a Vercel deployment. After merging, confirm `Content-Security-Policy` appears in the response headers of the live site.
 - **Real FormSubmit request.** The live endpoint was never contacted.
 - **Future changes.** Any new external script, style, font host, form endpoint or inline style will be blocked until the policy is updated.
+
+---
+
+## www redirect
+
+- **Branch:** `fix/www-redirect` (from `main` at `24a1a2e`)
+- **Date:** 2026-10-11
+
+### Changes
+
+- `vercel.json`: added a `redirects` entry. Requests whose host is `www.installbeliefs.com` get a permanent redirect (`permanent: true`, HTTP 308) to `https://installbeliefs.com/$1`, keeping the path. The `headers` block, including the Content-Security-Policy, is unchanged.
+
+### Why
+
+Before this change, `www.installbeliefs.com` and `installbeliefs.com` both served the site with a 200, so the same pages existed at two URLs. The canonical URLs in `og:url` and `sitemap.xml` are on the apex, so `www` should send visitors there.
+
+### Verification
+
+- `vercel.json` parses as valid JSON with exactly two top-level keys, `headers` and `redirects`.
+- The `headers` block is byte-for-byte identical to `main` (720 bytes), and the CSP value and all five headers are unchanged.
+- The `redirects` entry matches the requested one exactly.
+- The diff is 8 added lines and no removed lines.
+
+### Not verified
+
+- **Live behaviour.** This was not tested against a deployment. After merging, check that `curl -sI https://www.installbeliefs.com/contact.html` returns a 308 with `location: https://installbeliefs.com/contact.html`, and that the apex still returns 200.
+- **Query strings.** The `$1` capture covers the path. Vercel normally carries the query string through on a redirect, but that was not tested.
+- **Permanent redirect.** Browsers cache a 308, so reversing this later can take time to reach returning visitors.
