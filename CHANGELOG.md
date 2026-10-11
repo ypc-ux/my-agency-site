@@ -406,3 +406,50 @@ Branch: `cursor/launch-prep`. Existing copy, design, and layout were left as the
 - `[DOMAIN]`
 - `company_website` honeypot (must stay empty; do not give it a value)
 
+
+---
+
+## Launch prep part 2
+
+**Branch:** `cursor/launch-prep`. Done after the first launch prep, on the same branch.
+
+### Changes by file
+
+- `robots.txt`, `sitemap.xml`: `https://[DOMAIN]` replaced with `https://installbeliefs.com`. The sitemap lists `/` and `/contact.html` only. There was no Work entry to remove.
+- `index.html`, `contact.html`, `404.html`: `og:image` now `https://installbeliefs.com/og-image.svg`. `og:url` values were already `installbeliefs.com`.
+- `404.html`: `[AGENCY NAME]` replaced with lowercase `installbeliefs` in the title, `og:title`, logo and footer.
+- `og-image.svg`: `[AGENCY NAME]` replaced with `installbeliefs`. The hero line is unchanged.
+- `index.html`, `contact.html`, `404.html`: placeholder-inventory comments now list only what is still in each file. `[DOMAIN]` removed from all three.
+- `vercel.json` (new): `cleanUrls: true`, plus on all paths `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`.
+
+### Decisions
+
+- **No merge of `origin/main`.** It is already an ancestor of this branch, so a merge would only add an empty merge commit. No conflicts arose, so none were resolved.
+- **Kept going after the content check failed.** `index.html` and `contact.html` still contain `[AGENCY NAME]`, `[SERVICE 1]`, `[CLIENT A]` and `[RANGE 1]`, so the content update is not on `main`. The brief said to stop there and report "Content update not on main yet." The steps that do not depend on that content (domain, 404 and share-image name, `vercel.json`) were done on approval instead. The content update itself is still missing.
+- **`[AGENCY NAME]` left in `index.html` and `contact.html`.** Only the 404 page and `og-image.svg` were changed to `installbeliefs`. The other two are client-supplied names, and the lowercase name would not fit titles like `[AGENCY NAME] | We install beliefs in your market.`
+- **Work section left in place.** It still exists on this branch, and its nav links and `#work` anchor resolve. Removing it belongs to the content update, so it was not done here.
+- **No Content-Security-Policy.** The form endpoint is not chosen yet, and a CSP needs to allow it. Add one after the endpoint is set, allowing Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) and the endpoint host.
+- **`cleanUrls` and `.html` links.** With `cleanUrls: true`, Vercel redirects `/contact.html` to `/contact`. Internal links, `og:url` and the sitemap still use `.html`, so they work but go through a redirect. Search engines prefer one canonical URL. Decide whether to switch these to clean URLs.
+
+### Not done, and why
+
+- **`og-image.png` was not created.** None of `rsvg-convert`, Inkscape or ImageMagick is installed, and nothing was installed into the project. `og:image` stays on `og-image.svg`. Export it to a 1200x630 PNG and point `og:image` at `https://installbeliefs.com/og-image.png` before launch, because X, WhatsApp, LinkedIn and Facebook do not render SVG previews.
+- **Content update not applied.** See Decisions.
+- **Pull request not created or merged.** That depends on the content update landing first.
+
+### Verification
+
+Headless Chromium, network blocked, 38 checks, 0 failures: hero H1 exact; one H1 on each of the three pages; every relative link and anchor resolves; both sitemap pages exist and none is a Work page; no `[DOMAIN]` left; only Google Fonts as an external host; no analytics, cookie or tracking code; empty fields and an invalid email show errors; valid fields with `[FORM ENDPOINT]` show "This form isn't set up yet." with no success message and no request; a real URL gets a POST; a failed POST shows the footer email; a filled honeypot sends nothing.
+
+### Placeholders still left
+
+- `[AGENCY NAME]` (index, contact)
+- `[EMAIL]` (index, contact, 404)
+- `[BOOKING URL]` (contact)
+- `[FORM ENDPOINT]` (contact)
+- `[SOCIAL URL]` (index)
+- `[SERVICE 1]` to `[SERVICE 4]` and `[One sentence describing what this service delivers.]` (index)
+- `[CLIENT A]`, `[CLIENT B]`, `[CLIENT C]`, `[Describe the market problem in one or two sentences.]`, `[RESULT %]`, `[RESULT METRIC]` (index)
+- `[RANGE 1]` to `[RANGE 4]` (contact)
+- `company_website` honeypot (must stay empty)
+- `[DOMAIN]` is resolved.
