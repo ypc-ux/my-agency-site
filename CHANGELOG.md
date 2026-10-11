@@ -294,20 +294,41 @@ the form field border, covered next.
 (`#d9d5cc`), which measured 1.46:1 against the white fill. WCAG 1.4.11 asks for
 3:1 on the boundary of an input when that boundary is what identifies it.
 
-- Added `--input-border: #8a8780` and used it for the border on `.field input`,
-  `.field textarea` and `.field select`. Two lines changed in `styles.css`.
+- Added `--input-border` and used it for the border on `.field input`,
+  `.field textarea` and `.field select`. First set to `#8a8780`, then changed to
+  `#7a8794` (a slightly cooler grey, requested later). The final value is
+  `#7a8794`. Net change in `styles.css`: the token plus one `border` line.
 - `--rule` is unchanged. Decorative borders still use it: header bottom, footer
   top, section dividers, and card borders (all measured as `rgb(217, 213, 204)`
   after the change).
 
 | Pair | Ratio | Needed |
 |---|---|---|
-| `#8a8780` border on white input fill `#ffffff` | 3.58 | 3 |
-| `#8a8780` border on page background `#f7f5f0` | 3.29 | 3 |
+| `#7a8794` border on white input fill `#ffffff` (final) | 3.67 | 3 |
+| `#7a8794` border on page background `#f7f5f0` (final) | 3.37 | 3 |
+| `#8a8780` border on white (earlier value, replaced) | 3.58 | 3 |
+| `#8a8780` border on page background (earlier value, replaced) | 3.29 | 3 |
 
 All five fields (`name`, `company`, `email`, `building`, `budget`) measured the
-same in headless Chromium. `#8a8780` already cleared 3:1 on both, so it was not
-darkened further. The invalid-state border (`#b3261e`) and the focus border
+same in headless Chromium. `#7a8794` already cleared 3:1 on both, so it was not
+darkened further.
+
+**Re-check of the text and button pairs with the final border in place**
+(computed styles in headless Chromium, 1280px):
+
+| Pair | Ratio | Needed | Result |
+|---|---|---|---|
+| White text on accent button (`#ffffff` on `#b8341a`) | 5.93 | 4.5 | pass |
+| Eyebrow text, accent `#b8341a` on page background `#f7f5f0` | 5.44 | 4.5 | pass |
+| Muted text `#5c5a55` on page background `#f7f5f0` | 6.32 | 4.5 | pass |
+
+No fix was needed for any of these, so nothing else in `styles.css` changed.
+The request named an "accent-deep" colour; no such token exists. The eyebrow
+uses `--accent`, which is the pair measured above. The request also mentioned
+consent checkbox and radio inputs; `contact.html` has none and `styles.css` has
+no custom borders for them, so there was nothing to change. `--rule` and the
+decorative borders (header, footer, section dividers, cards) still measure
+`rgb(217, 213, 204)`. The invalid-state border (`#b3261e`) and the focus border
 (accent) still override it: on a fresh page, keyboard focus on a field shows a
 `rgb(184, 52, 26)` border and a 3px outline of the same colour.
 
