@@ -4,6 +4,7 @@
   --paper: #f7f5f0;
   --muted: #5c5a55;
   --rule: #d9d5cc;
+  --input-border: #8a8780;
   --accent: #b8341a; /* placeholder accent */
   --accent-ink: #ffffff;
 
@@ -239,7 +240,7 @@ section { padding: var(--space-6) 0; border-top: 1px solid var(--rule); }
 .field select {
   font: inherit;
   padding: 0.7rem 0.85rem;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--input-border);
   border-radius: var(--radius);
   background: #ffffff;
   color: var(--ink);

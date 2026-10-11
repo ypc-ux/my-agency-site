@@ -286,14 +286,35 @@ messages to show, and measured primary and ghost button hover states. Large text
 Focus rings use `--accent`, so they now measure 5.44 on paper and 5.93 on
 white (3:1 needed for UI indicators).
 
-**No second fix was needed**, so no other colour in `styles.css` was changed.
+**No second text or button fix was needed.** The only other colour change is
+the form field border, covered next.
 
-**Not changed, logged as a suggestion (outside the text/button scope asked
-for):** the form field border `#d9d5cc` on white measures 1.46:1. WCAG 1.4.11
-asks for 3:1 on the boundary of an input when that boundary is what identifies
-it. Fields also have a label and a white fill, so this is a judgement call, and
-darkening the border changes the look of every field. Left alone per the
-decision rule on bug vs preference.
+**Form field borders: fixed in a second change** (commit
+`review: raise form border contrast to 3:1`). The field border used `--rule`
+(`#d9d5cc`), which measured 1.46:1 against the white fill. WCAG 1.4.11 asks for
+3:1 on the boundary of an input when that boundary is what identifies it.
+
+- Added `--input-border: #8a8780` and used it for the border on `.field input`,
+  `.field textarea` and `.field select`. Two lines changed in `styles.css`.
+- `--rule` is unchanged. Decorative borders still use it: header bottom, footer
+  top, section dividers, and card borders (all measured as `rgb(217, 213, 204)`
+  after the change).
+
+| Pair | Ratio | Needed |
+|---|---|---|
+| `#8a8780` border on white input fill `#ffffff` | 3.58 | 3 |
+| `#8a8780` border on page background `#f7f5f0` | 3.29 | 3 |
+
+All five fields (`name`, `company`, `email`, `building`, `budget`) measured the
+same in headless Chromium. `#8a8780` already cleared 3:1 on both, so it was not
+darkened further. The invalid-state border (`#b3261e`) and the focus border
+(accent) still override it: on a fresh page, keyboard focus on a field shows a
+`rgb(184, 52, 26)` border and a 3px outline of the same colour.
+
+**Existing behaviour, not changed:** once a field is flagged invalid, it keeps
+its red border while focused, because the `[aria-invalid="true"]` rule sits
+after the `:focus-visible` rule in `styles.css` with equal specificity. The 3px
+accent outline still appears. Logged as a suggestion, not a bug.
 
 **Visual note:** `#b8341a` is a deeper, browner red-orange than `#e5492b`, so
 the buttons and eyebrow text will look less bright. Contrast was measured, not
