@@ -483,3 +483,51 @@ Headless Chromium, network blocked, 38 checks, 0 failures: hero H1 exact; one H1
 - `[SOCIAL URL]` (index)
 - `[BOOKING URL]` (contact)
 - `[FORM ENDPOINT]` (contact)
+
+---
+
+## Launch prep part 3
+
+**Branch:** `cursor/launch-prep`. This part merged the content update from `main` and finished the launch files.
+
+### Changes by file
+
+- `index.html`, `contact.html`: merged from `origin/main` (content update `80e68b8`). Agency name, four services, four budget ranges, no Work section.
+- `404.html`: removed the `index.html#work` nav link, which no longer resolves.
+- `vercel.json`: removed `"cleanUrls": true`. The four security headers are kept.
+- `og-image.png` (new): 1200x630 export of `og-image.svg`. `og-image.svg` is kept.
+- `index.html`, `contact.html`, `404.html`: `og:image` now `https://installbeliefs.com/og-image.png`.
+
+### Merge conflicts resolved
+
+- `contact.html`, placeholder comment: kept main's copy (no budget-range entry) and this branch's `company_website` honeypot line.
+- `CHANGELOG.md`: kept both sides. Main's "Content update" section and this branch's launch-prep sections are all present.
+- `index.html` merged without a conflict. `script.js` and the launch files were not changed by main, so this branch's copies stand.
+
+### Decisions
+
+- **`cleanUrls` removed.** Links, `og:url` and `sitemap.xml` all use `.html`. With `cleanUrls: true` Vercel would redirect every one of them to the extensionless URL. This replaces the open question in "Launch prep part 2".
+- **PNG export used headless Chromium with the network blocked.** Only fonts that load offline can be used, so the SVG's Georgia stack resolves to the Georgia installed on this machine. Text fits with at least a 79px margin. Nothing was installed into the project.
+- **The PNG is generated from the SVG, so the two should be kept in step.** If the SVG changes, re-export.
+- **No Content-Security-Policy yet.** Add one after the form endpoint is chosen. It must allow `fonts.googleapis.com`, `fonts.gstatic.com` and the endpoint host.
+
+### Supersedes earlier notes
+
+The following lines in "Launch prep part 2" and "Cursor launch prep" were true when written and are no longer current: `og-image.png` was not created (it now exists), `cleanUrls: true` was added (it is removed), and the content update was missing from `main` (it is merged).
+
+### Not done
+
+- **`styles.css` cleanup.** `.case-client`, `.case-result` and `.work .card-grid` match nothing now. Left in place because removing them is outside this task.
+- **`privacy.html`.** Tearsmith only.
+
+### Verification
+
+Headless Chromium, network blocked, 50 checks, 0 failures: hero H1 exact; one H1 on each of three pages; 19 relative links and anchors resolve; both sitemap pages exist and none is a Work page; every `og:image` is the PNG URL and both image files exist; `vercel.json` has no `cleanUrls` and keeps four headers with no CSP; no content placeholders left and each inventory comment matches its file; Google Fonts is the only external host; no analytics, cookie or tracking code; supplied budget ranges present; empty fields, an invalid email, valid with `[FORM ENDPOINT]` (error, no request), a real URL (POSTs) and a filled honeypot (sends nothing) all behave correctly; no horizontal overflow on the home page at 375, 768 and 1280px.
+
+### Placeholders still left
+
+- `[EMAIL]` (index, contact, 404)
+- `[SOCIAL URL]` (index)
+- `[BOOKING URL]` (contact)
+- `[FORM ENDPOINT]` (contact)
+- `company_website` honeypot (must stay empty)
