@@ -344,6 +344,116 @@ accent outline still appears. Logged as a suggestion, not a bug.
 the buttons and eyebrow text will look less bright. Contrast was measured, not
 visually reviewed after the change.
 
+---
+
+## Share image note
+
+`og-image.svg` is the share image. Some platforms (X, WhatsApp, LinkedIn, Facebook) don't render SVG previews. Export `og-image.svg` to a 1200x630 PNG and update the `og:image` tag before launch.
+
+---
+
+## Cursor launch prep
+
+Branch: `cursor/launch-prep`. Existing copy, design, and layout were left as they were except where a task required a new message or a new file. No new CSS was added to `styles.css` (the honeypot is hidden with an inline style, and the new form error reuses `.error`).
+
+### Changes by file
+
+- `script.js` — After the existing validation passes, a submit whose action still contains `[FORM ENDPOINT]` shows "This form isn't set up yet." and does not send. A real action is sent with `fetch` POST and `Content-Type: application/json`, using the named fields and omitting `company_website`. The button reads "Sending..." while the request runs, then returns to "Send inquiry". Success is shown only when `response.ok`, then the form resets. A failed or non-ok response shows "This didn't send. Email [address]." using the first `mailto:` link in the footer. A filled honeypot returns with no message and no request.
+- `contact.html` — Hidden honeypot `company_website` (must stay empty). Form-level alert `#form-error`. Favicon (lowercase "i" in `#b8341a`). `og:image` pointing at `https://[DOMAIN]/og-image.svg`. Inventory comment lists the honeypot and `[DOMAIN]`. `[FORM ENDPOINT]` is unchanged.
+- `index.html` — Same favicon and `og:image`. Inventory comment lists `[DOMAIN]`. Hero line unchanged.
+- `404.html` — New. One H1, "Page not found.", and a link to `index.html`. Header and footer follow `contact.html` so off-home nav links point at `index.html#services`, `#work`, and `#process`.
+- `robots.txt` — Allow all, plus `Sitemap: https://[DOMAIN]/sitemap.xml`.
+- `sitemap.xml` — Home and `contact.html` only. `404.html` is excluded.
+- `og-image.svg` — 1200x630. Paper `#f7f5f0`, accent `#b8341a`, ink `#111111`. Site name `[AGENCY NAME]` and the exact hero line. Generic serif stack, no external fonts.
+- `CHANGELOG.md` — This section, plus the share-image note above it.
+
+### Decisions
+
+- **404 chrome follows contact.html.** Index and contact footers differ. A non-home page needs `index.html#...` anchors, which is the contact pattern. Reason: relative `#services` on the 404 page would not resolve.
+- **Read `getAttribute("action")`, not the DOM `action` property.** The property turns `[FORM ENDPOINT]` into a resolved URL, so the placeholder check would never see it. Reason: the placeholder has to stay detectable and untouched.
+- **Footer email is read at runtime.** The failure message uses the first footer `mailto:` and does not contain a hardcoded address. Reason: the address is still `[EMAIL]`.
+- **No new stylesheet rules.** The ~40-line limit was not approached. Reason: existing `.error` already shows and hides the alert.
+- **Verification found nothing to fix.** Headless Chrome, with network blocked, checked one H1 per page, the exact hero line, relative links, and the form cases (empty name, empty company, invalid email, empty building, placeholder action with no request, real URL POST as JSON, filled honeypot sends nothing, non-ok and network failure show the footer email). Reason: every check passed.
+
+### Not done, and why
+
+- **`privacy.html` was not created.** That task is Tearsmith-only. This repo is installbeliefs (`PROJECT_BRIEF.md` is present). There is no consent checkbox to retarget.
+- **`og-image.svg` was not exported to PNG.** Some platforms (X, WhatsApp, LinkedIn, Facebook) don't render SVG previews. Export `og-image.svg` to a 1200x630 PNG and update the `og:image` tag before launch.
+- **No second repo was in the task.** Only `https://github.com/ypc-ux/my-agency-site.git` was given.
+
+### Placeholders still to replace
+
+- `[AGENCY NAME]`
+- `[EMAIL]`
+- `[BOOKING URL]`
+- `[FORM ENDPOINT]`
+- `[SERVICE 1]`
+- `[SERVICE 2]`
+- `[SERVICE 3]`
+- `[SERVICE 4]`
+- `[One sentence describing what this service delivers.]`
+- `[CLIENT A]`
+- `[CLIENT B]`
+- `[CLIENT C]`
+- `[Describe the market problem in one or two sentences.]`
+- `[RESULT %]`
+- `[RESULT METRIC]`
+- `[SOCIAL URL]`
+- `[RANGE 1]`
+- `[RANGE 2]`
+- `[RANGE 3]`
+- `[RANGE 4]`
+- `[DOMAIN]`
+- `company_website` honeypot (must stay empty; do not give it a value)
+
+
+---
+
+## Launch prep part 2
+
+**Branch:** `cursor/launch-prep`. Done after the first launch prep, on the same branch.
+
+### Changes by file
+
+- `robots.txt`, `sitemap.xml`: `https://[DOMAIN]` replaced with `https://installbeliefs.com`. The sitemap lists `/` and `/contact.html` only. There was no Work entry to remove.
+- `index.html`, `contact.html`, `404.html`: `og:image` now `https://installbeliefs.com/og-image.svg`. `og:url` values were already `installbeliefs.com`.
+- `404.html`: `[AGENCY NAME]` replaced with lowercase `installbeliefs` in the title, `og:title`, logo and footer.
+- `og-image.svg`: `[AGENCY NAME]` replaced with `installbeliefs`. The hero line is unchanged.
+- `index.html`, `contact.html`, `404.html`: placeholder-inventory comments now list only what is still in each file. `[DOMAIN]` removed from all three.
+- `vercel.json` (new): `cleanUrls: true`, plus on all paths `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`.
+
+### Decisions
+
+- **No merge of `origin/main`.** It is already an ancestor of this branch, so a merge would only add an empty merge commit. No conflicts arose, so none were resolved.
+- **Kept going after the content check failed.** `index.html` and `contact.html` still contain `[AGENCY NAME]`, `[SERVICE 1]`, `[CLIENT A]` and `[RANGE 1]`, so the content update is not on `main`. The brief said to stop there and report "Content update not on main yet." The steps that do not depend on that content (domain, 404 and share-image name, `vercel.json`) were done on approval instead. The content update itself is still missing.
+- **`[AGENCY NAME]` left in `index.html` and `contact.html`.** Only the 404 page and `og-image.svg` were changed to `installbeliefs`. The other two are client-supplied names, and the lowercase name would not fit titles like `[AGENCY NAME] | We install beliefs in your market.`
+- **Work section left in place.** It still exists on this branch, and its nav links and `#work` anchor resolve. Removing it belongs to the content update, so it was not done here.
+- **No Content-Security-Policy.** The form endpoint is not chosen yet, and a CSP needs to allow it. Add one after the endpoint is set, allowing Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) and the endpoint host.
+- **`cleanUrls` and `.html` links.** With `cleanUrls: true`, Vercel redirects `/contact.html` to `/contact`. Internal links, `og:url` and the sitemap still use `.html`, so they work but go through a redirect. Search engines prefer one canonical URL. Decide whether to switch these to clean URLs.
+
+### Not done, and why
+
+- **`og-image.png` was not created.** None of `rsvg-convert`, Inkscape or ImageMagick is installed, and nothing was installed into the project. `og:image` stays on `og-image.svg`. Export it to a 1200x630 PNG and point `og:image` at `https://installbeliefs.com/og-image.png` before launch, because X, WhatsApp, LinkedIn and Facebook do not render SVG previews.
+- **Content update not applied.** See Decisions.
+- **Pull request not created or merged.** That depends on the content update landing first.
+
+### Verification
+
+Headless Chromium, network blocked, 38 checks, 0 failures: hero H1 exact; one H1 on each of the three pages; every relative link and anchor resolves; both sitemap pages exist and none is a Work page; no `[DOMAIN]` left; only Google Fonts as an external host; no analytics, cookie or tracking code; empty fields and an invalid email show errors; valid fields with `[FORM ENDPOINT]` show "This form isn't set up yet." with no success message and no request; a real URL gets a POST; a failed POST shows the footer email; a filled honeypot sends nothing.
+
+### Placeholders still left
+
+- `[AGENCY NAME]` (index, contact)
+- `[EMAIL]` (index, contact, 404)
+- `[BOOKING URL]` (contact)
+- `[FORM ENDPOINT]` (contact)
+- `[SOCIAL URL]` (index)
+- `[SERVICE 1]` to `[SERVICE 4]` and `[One sentence describing what this service delivers.]` (index)
+- `[CLIENT A]`, `[CLIENT B]`, `[CLIENT C]`, `[Describe the market problem in one or two sentences.]`, `[RESULT %]`, `[RESULT METRIC]` (index)
+- `[RANGE 1]` to `[RANGE 4]` (contact)
+- `company_website` honeypot (must stay empty)
+- `[DOMAIN]` is resolved.
+
 
 ---
 
@@ -373,3 +483,51 @@ visually reviewed after the change.
 - `[SOCIAL URL]` (index)
 - `[BOOKING URL]` (contact)
 - `[FORM ENDPOINT]` (contact)
+
+---
+
+## Launch prep part 3
+
+**Branch:** `cursor/launch-prep`. This part merged the content update from `main` and finished the launch files.
+
+### Changes by file
+
+- `index.html`, `contact.html`: merged from `origin/main` (content update `80e68b8`). Agency name, four services, four budget ranges, no Work section.
+- `404.html`: removed the `index.html#work` nav link, which no longer resolves.
+- `vercel.json`: removed `"cleanUrls": true`. The four security headers are kept.
+- `og-image.png` (new): 1200x630 export of `og-image.svg`. `og-image.svg` is kept.
+- `index.html`, `contact.html`, `404.html`: `og:image` now `https://installbeliefs.com/og-image.png`.
+
+### Merge conflicts resolved
+
+- `contact.html`, placeholder comment: kept main's copy (no budget-range entry) and this branch's `company_website` honeypot line.
+- `CHANGELOG.md`: kept both sides. Main's "Content update" section and this branch's launch-prep sections are all present.
+- `index.html` merged without a conflict. `script.js` and the launch files were not changed by main, so this branch's copies stand.
+
+### Decisions
+
+- **`cleanUrls` removed.** Links, `og:url` and `sitemap.xml` all use `.html`. With `cleanUrls: true` Vercel would redirect every one of them to the extensionless URL. This replaces the open question in "Launch prep part 2".
+- **PNG export used headless Chromium with the network blocked.** Only fonts that load offline can be used, so the SVG's Georgia stack resolves to the Georgia installed on this machine. Text fits with at least a 79px margin. Nothing was installed into the project.
+- **The PNG is generated from the SVG, so the two should be kept in step.** If the SVG changes, re-export.
+- **No Content-Security-Policy yet.** Add one after the form endpoint is chosen. It must allow `fonts.googleapis.com`, `fonts.gstatic.com` and the endpoint host.
+
+### Supersedes earlier notes
+
+The following lines in "Launch prep part 2" and "Cursor launch prep" were true when written and are no longer current: `og-image.png` was not created (it now exists), `cleanUrls: true` was added (it is removed), and the content update was missing from `main` (it is merged).
+
+### Not done
+
+- **`styles.css` cleanup.** `.case-client`, `.case-result` and `.work .card-grid` match nothing now. Left in place because removing them is outside this task.
+- **`privacy.html`.** Tearsmith only.
+
+### Verification
+
+Headless Chromium, network blocked, 50 checks, 0 failures: hero H1 exact; one H1 on each of three pages; 19 relative links and anchors resolve; both sitemap pages exist and none is a Work page; every `og:image` is the PNG URL and both image files exist; `vercel.json` has no `cleanUrls` and keeps four headers with no CSP; no content placeholders left and each inventory comment matches its file; Google Fonts is the only external host; no analytics, cookie or tracking code; supplied budget ranges present; empty fields, an invalid email, valid with `[FORM ENDPOINT]` (error, no request), a real URL (POSTs) and a filled honeypot (sends nothing) all behave correctly; no horizontal overflow on the home page at 375, 768 and 1280px.
+
+### Placeholders still left
+
+- `[EMAIL]` (index, contact, 404)
+- `[SOCIAL URL]` (index)
+- `[BOOKING URL]` (contact)
+- `[FORM ENDPOINT]` (contact)
+- `company_website` honeypot (must stay empty)

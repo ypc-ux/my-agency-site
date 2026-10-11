@@ -1,64 +1,61 @@
-# PR: installbeliefs.com v1 review
+# PR: installbeliefs launch prep
 
-**Branch:** `site/v1-review`
-**Base:** none yet. The remote (`ypc-ux/my-agency-site`) has no `main`. See "Before merge".
-**Recommendation:** Ready after named items. Do not launch until they are done.
+**Branch:** `cursor/launch-prep`
+**Base:** `main`
+**Commit count:** 17 (`git rev-list --count origin/main..HEAD`, including the commit that adds this file)
+**Recommendation:** Ready to merge once the open items below are accepted. All verification checks passed. This branch has not been merged into `main`.
 
 ## What changed
 
-Four static files carried over from `~/Documents/cursor/files/` were reviewed
-and lightly corrected. There are no new pages, sections, services or prices.
+Launch prep on the static site. No new marketing sections and no new CSS.
 
-| File | Change |
-|---|---|
-| `contact.html` | Added the missing `og:description` and `og:url`. Placeholder-inventory comment now includes `[RANGE 1]` to `[RANGE 4]`. |
-| `index.html` | Placeholder-inventory comment now lists exactly the placeholders in the file. No visible copy changed. |
-| `styles.css`, `script.js` | Unchanged. |
-| `CHANGELOG.md` | New. Changes, decisions, issues, suggestions, placeholders, final review. |
-| `PROJECT_BRIEF.md`, `.clinerules`, `PRICING_MODEL.md`, `CLINE_TASKS.md`, `.gitignore` | New project scaffold. These were missing, so they were written during the build (each has a provenance note). |
+- **Real form submit in `script.js`.** Existing validation is unchanged. `[FORM ENDPOINT]` shows "This form isn't set up yet." and does not send. A real action gets a JSON POST. A failure points at the footer mailto. A filled `company_website` honeypot sends nothing.
+- **Launch files:** `404.html`, `robots.txt`, `sitemap.xml` (home and `contact.html` only), a favicon on every page, and `og-image.svg` plus `og-image.png` (1200x630).
+- **Domain set:** `installbeliefs.com` in `robots.txt`, `sitemap.xml` and every `og:image` tag. Every `og:image` now points at `https://installbeliefs.com/og-image.png`.
+- **`vercel.json`:** four security headers on all paths (`X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, and a `Permissions-Policy` with camera, microphone and geolocation off). `cleanUrls` is not set, because links, `og:url` and the sitemap use `.html` and it would redirect every one. No Content-Security-Policy yet, because the form endpoint is not chosen.
+- **Content update merged in from `main`** (commit `80e68b8`): agency name `installbeliefs`, the four supplied services, the four supplied budget ranges, the Work section and its links removed, and the hero secondary button now reads "See how we work" and goes to `#process`. The 404 page's leftover Work link is also removed.
+- **`CHANGELOG.md`** has "Cursor launch prep", "Launch prep part 2", "Content update" and "Launch prep part 3" sections.
 
-The final review added no code fixes.
+## Merge conflicts resolved
+
+Merging `origin/main` into this branch conflicted in two files.
+
+- `contact.html`, placeholder comment: kept main's copy (no budget-range entry) and this branch's `company_website` honeypot line.
+- `CHANGELOG.md`: kept both sides. Main's "Content update" section and this branch's launch-prep sections are all present.
+
+`index.html` merged without a conflict. `script.js` and the launch files were not touched by main.
 
 ## What was verified
 
-- Hero reads exactly "We install beliefs in your market."
-- One H1 per page; meta description and Open Graph tags on both pages.
-- Skip link and `:focus-visible` styles present; nav anchors match section IDs.
-- No banned words in visible copy (checked against `.clinerules`).
-- Every field ID used by `script.js` exists in `contact.html`.
-- `[FORM ENDPOINT]` present and untouched.
-- Form validation re-run in headless Chromium: empty name, empty company,
-  invalid email, empty "building", and a valid submission all behave correctly.
-- Responsive at 375, 768 and 1280px: no overflow, cards stack on mobile, nav
-  stays on one row, form fields are full width on mobile.
-- No external scripts except Google Fonts; no analytics, cookies or tracking.
-- No invented clients, metrics, testimonials, logos or prices.
+Headless Chromium with the network blocked, 50 checks, 0 failures.
 
-## What is still open
+- Hero H1 is exactly "We install beliefs in your market." One H1 on each of `index.html`, `contact.html` and `404.html`.
+- All 19 relative links and anchors resolve. Both sitemap pages exist, and none is a Work page.
+- Google Fonts is the only external host. No analytics, cookie or tracking code.
+- Empty fields, an invalid email, valid fields with `[FORM ENDPOINT]` (error, no request), a real URL (POSTs), and a filled honeypot (sends nothing) all behave correctly.
+- The home page has no horizontal overflow at 375, 768 and 1280px.
+- `og-image.png` is 1200x630, made with locally installed Georgia and no network. The text fits with at least a 79px margin.
 
-- **Contrast:** white on the accent button is 3.95:1 and accent small text on
-  the paper background is 3.62:1. Both are below WCAG AA 4.5:1. The accent is
-  marked as a placeholder, so this is a brand decision.
-- **Form:** with `[FORM ENDPOINT]` unset, a valid submit shows a success message
-  but sends nothing.
-- **Google Fonts:** loaded from Google's CDN. Self-host or accept.
-- **Brief and banned-word list** were written during the build, not supplied by
-  the client. The "zero banned words" result is against that list.
-- **Dead placeholder links** (`mailto:[EMAIL]`, `[SOCIAL URL]`, `[BOOKING URL]`)
-  until real values go in.
-- **Repo name** is `my-agency-site`; confirm it is the right home.
-- Commit order: steps 1 and 2 appear swapped in history (both empty commits).
+## Open items before merge
 
-## Before merge
+- Replace the placeholders below. Do not invent the values.
+- Set the form `action` to a real endpoint and confirm a test submission. Until then the form correctly refuses to send.
+- Add a Content-Security-Policy once the endpoint is chosen. It needs to allow Google Fonts and the endpoint host.
+- Leave the `company_website` honeypot empty.
+- `styles.css` still has `.case-client`, `.case-result` and `.work` rules from the removed Work section. They match nothing and are harmless. Delete them later if you like.
+- The PNG share image is plain text on a solid background. Replace it if you want a designed one.
 
-1. Create a `main` branch on the remote so this PR has a base. This was not done
-   in the review.
-2. Replace every bracketed placeholder with real client content. The list is in
-   `CHANGELOG.md`.
-3. Set `[FORM ENDPOINT]` and confirm a test submission arrives.
-4. Decide on Google Fonts.
-5. Confirm or darken the accent colour to reach 4.5:1.
-6. Have the client confirm the brief and banned-word list.
-7. No deploys on Fridays.
+## Tasks skipped
+
+- `privacy.html`: Tearsmith only. This repo is installbeliefs.
+
+## Placeholders still to replace
+
+- `[EMAIL]` (index, contact, 404)
+- `[SOCIAL URL]` (index)
+- `[BOOKING URL]` (contact)
+- `[FORM ENDPOINT]` (contact)
+
+`[AGENCY NAME]`, `[SERVICE 1]` to `[SERVICE 4]`, `[CLIENT A]` to `[CLIENT C]`, `[RESULT %]`, `[RESULT METRIC]`, `[RANGE 1]` to `[RANGE 4]` and `[DOMAIN]` are all resolved.
 
 Full detail is in `CHANGELOG.md`.

@@ -25,8 +25,26 @@ if (form) {
     if (errorEl) errorEl.textContent = message;
   }
 
+  const formErrorEl = document.getElementById("form-error");
+  const submitBtn = form.querySelector('[type="submit"]');
+  const originalLabel = submitBtn ? submitBtn.textContent : "";
+
+  function setFormError(message) {
+    if (formErrorEl) formErrorEl.textContent = message || "";
+  }
+
+  function footerEmailAddress() {
+    const link = document.querySelector("footer a[href^='mailto:']");
+    if (!link) return "";
+    return (link.getAttribute("href") || "").replace(/^mailto:/i, "").split("?")[0];
+  }
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+
+    const honeypot = form.elements.company_website;
+    if (honeypot && honeypot.value !== "") return;
+
     let firstInvalid = null;
 
     Object.entries(rules).forEach(([field, rule]) => {
@@ -39,15 +57,61 @@ if (form) {
     if (firstInvalid) {
       firstInvalid.focus();
       if (successEl) successEl.hidden = true;
+      setFormError("");
       return;
     }
 
-    // Placeholder submission. Replace with a real POST to [FORM ENDPOINT].
-    if (successEl) {
-      successEl.hidden = false;
-      successEl.focus?.();
+    // The action attribute must be set to the real endpoint URL before launch.
+    const action = form.getAttribute("action") || "";
+    if (action.includes("[FORM ENDPOINT]")) {
+      if (successEl) successEl.hidden = true;
+      setFormError("This form isn't set up yet.");
+      return;
     }
-    form.reset();
+
+    const payload = {};
+    new FormData(form).forEach((value, key) => {
+      if (key === "company_website") return;
+      payload[key] = value;
+    });
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+    }
+    if (successEl) successEl.hidden = true;
+    setFormError("");
+
+    // Named fields as JSON. The format may need to change to match the endpoint provider.
+    fetch(action, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Request failed");
+        setFormError("");
+        if (successEl) {
+          successEl.hidden = false;
+          successEl.focus?.();
+        }
+        form.reset();
+      })
+      .catch(() => {
+        if (successEl) successEl.hidden = true;
+        const address = footerEmailAddress();
+        setFormError(
+          address
+            ? `This didn't send. Email ${address}.`
+            : "This didn't send. Email the address in the footer."
+        );
+      })
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+      });
   });
 
   // Clear an error once the user starts correcting the field
