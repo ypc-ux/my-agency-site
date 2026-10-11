@@ -576,3 +576,43 @@ Headless Chromium, network blocked, 50 checks, 0 failures: hero H1 exact; one H1
 ### Placeholders still left
 
 - None in the site files. The `company_website` honeypot is not a placeholder; it must stay empty.
+
+---
+
+## CSP
+
+- **Branch:** `security/csp` (from `main` at `9e1842c`)
+- **Date:** 2026-10-11
+
+### Changes
+
+- `vercel.json`: added a `Content-Security-Policy` header for all paths. The four existing headers are unchanged. The policy is exactly the one requested, with no directive changed:
+  `default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://formsubmit.co; form-action 'self' https://formsubmit.co; base-uri 'self'; frame-ancestors 'none'; object-src 'none'`
+- `contact.html`: removed the inline `style="position:absolute; left:-9999px"` from the `company_website` honeypot input.
+- `styles.css`: added `.contact-form input[name="company_website"] { position: absolute; left: -9999px; }`, the same two declarations, so the honeypot is hidden exactly as before.
+
+### Inventory of what the HTML loads
+
+- **Inline `<script>`:** none. Each page loads only `script.js`.
+- **Inline `<style>` blocks:** none.
+- **Inline `style=""` attributes:** one (the honeypot above), now moved to `styles.css`. A `style=""` attribute would have been blocked by `style-src`.
+- **Inline event handlers (`onclick=` etc.):** none.
+- **External resources loaded:** `fonts.googleapis.com` (stylesheet) and `fonts.gstatic.com` (font files). Both are allowed.
+- **External connections:** `formsubmit.co`, the form POST from `script.js`. Allowed in `connect-src`, and in `form-action` for the no-JavaScript fallback.
+- **Other external links:** LinkedIn, X and the Google Calendar booking link are plain `<a href>` navigations. CSP does not restrict those.
+- **Images:** the favicon is a `data:` SVG, allowed by `img-src`. `og-image.png` is referenced only in `<meta>` tags and is fetched by crawlers, not by the page.
+- **`script.js` and `styles.css`:** no `eval`, `innerHTML`, `.style` writes, `@import` or `url()`.
+
+### Verification
+
+Local server sending the headers from `vercel.json`, headless Chromium (Playwright), no request to the real form endpoint (every `formsubmit.co` request was answered locally by the test):
+
+- `index.html`, `contact.html`, `404.html`: CSP header served; zero CSP violations in the console or from `securitypolicyviolation` events; both stylesheets applied; Fraunces and Inter font files fetched from `fonts.gstatic.com` and loaded; `data:` favicon loads; no failed requests.
+- Sanity check that the policy is actually enforced: an injected inline script, an injected `<style>` and a request to `example.com` were all blocked.
+- Contact form under the policy: exactly one POST to `https://formsubmit.co/ajax/jry@secria.me`, with `Content-Type` and `Accept` both `application/json` and a JSON body that includes `_captcha: "false"` and omits `company_website`. Success message shown, zero violations. A filled honeypot sends nothing. The honeypot is still positioned off-screen.
+
+### Not verified
+
+- **Production headers.** Checked against a local server that mimics `vercel.json`, not against a Vercel deployment. After merging, confirm `Content-Security-Policy` appears in the response headers of the live site.
+- **Real FormSubmit request.** The live endpoint was never contacted.
+- **Future changes.** Any new external script, style, font host, form endpoint or inline style will be blocked until the policy is updated.
