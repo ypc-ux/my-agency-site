@@ -179,3 +179,79 @@ invented — replace with the client's real values:
 - `[RANGE 1]`, `[RANGE 2]`, `[RANGE 3]`, `[RANGE 4]` — budget select options
 
 Also decide on the Google Fonts CDN issue above before launch.
+
+---
+
+## Final review
+
+- **Reviewer pass:** 2026-10-11, branch `site/v1-review`, reviewed at `f920e41`
+  (8 commits, working tree clean, in sync with `origin/site/v1-review`).
+- **Diff reviewed:** `main` does not exist on the remote, so the diff was taken
+  against the root commit `cab5b7e`. Changed files: `index.html`, `contact.html`
+  (comments and `og:` tags only) and `CHANGELOG.md`. `styles.css` and
+  `script.js` are unchanged.
+
+### Fixes made
+
+None. Every hard check passed, so no `review: <fix>` commits were needed.
+
+Checks run: hero line exact; one H1 per page; zero banned words; every field ID
+in `script.js` exists in `contact.html`; `[FORM ENDPOINT]` present and
+untouched; no external scripts, analytics, cookies or tracking; relative links
+and `#services`/`#work`/`#process` anchors resolve; skip link on both pages; no
+invented clients, metrics, testimonials, logos or prices; all five form
+validation cases re-run in headless Chromium and pass.
+
+The Tearsmith-only checks (disclaimer, efficacy-word search) do not apply to
+this project.
+
+### "Not fixed" items from the changelog, reviewed
+
+1. **Google Fonts CDN.** Not a launch blocker. It is the stated exception, and
+   removing it would change the typography and need more than ~15 lines.
+   Left in place. Decide before launch whether to self-host.
+2. **Form sends nothing until `[FORM ENDPOINT]` is set.** Not a code defect.
+   It is a **pre-launch requirement**: with the placeholder in place the form
+   shows a success message but delivers no data, so a live site would silently
+   lose every lead.
+
+### Open items left in place, and why
+
+1. **Colour contrast (found in this review, not in the earlier pass).**
+   White text on the accent button measures 3.95:1, and accent-coloured small
+   text (eyebrow, step numbers) on the paper background measures 3.62:1. Both
+   are below the WCAG AA 4.5:1 minimum for small text. The large result
+   figures pass the 3:1 large-text bar. Not in the hard checks, and the accent
+   is labelled a placeholder in `styles.css`, so this is a brand decision.
+   Darkening `--accent` is a one-line fix once a final colour is chosen.
+2. **The source of truth was written by Cline, not supplied by the client.**
+   `PROJECT_BRIEF.md`, `.clinerules` and the banned-word list were authored
+   during the build run because none existed. "Zero banned words" is therefore
+   a check against a self-written list. If the client has a real brief or
+   banned list, re-run the checks against it before launch.
+3. **Placeholder links are dead until replaced.** `mailto:[EMAIL]`,
+   `[SOCIAL URL]` (x2) and `[BOOKING URL]` are intentional placeholders. They
+   are expected, but they must be replaced before launch.
+4. **No `main` branch on the remote.** `ypc-ux/my-agency-site` was empty when
+   it was used as `origin`, so a pull request has no base branch yet. This
+   review did not create or push `main`.
+5. **Repo name mismatch.** The remote is named `my-agency-site`, not
+   `installbeliefs.com`. Confirm this is the intended home for the site.
+6. **Commit order.** Steps 1 and 2 appear as step 2, then step 1 in history.
+   Both are empty commits. Not rewritten (hard rule).
+7. **Carried-over suggestions** (optional): duplicate `font-weight` in `.btn`,
+   no-op `successEl.focus?.()`, `!important` on `.case-result`, and no
+   `og:image`.
+
+### Launch recommendation: **Ready after named items**
+
+The site is structurally complete and passes every hard check. It must not go
+live until:
+
+1. Every bracketed placeholder is replaced with real client content (list above).
+2. `[FORM ENDPOINT]` is wired to a real endpoint and a test submission arrives.
+3. The Google Fonts decision is made (self-host or accept).
+4. The accent colour is confirmed or darkened to meet 4.5:1.
+5. The brief and banned-word list are confirmed by the client.
+6. A `main` branch exists to merge into.
+
