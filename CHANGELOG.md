@@ -344,3 +344,9 @@ accent outline still appears. Logged as a suggestion, not a bug.
 the buttons and eyebrow text will look less bright. Contrast was measured, not
 visually reviewed after the change.
 
+---
+
+## Share image note
+
+`og-image.svg` is the share image. Some platforms (X, WhatsApp, LinkedIn, Facebook) don't render SVG previews. Export `og-image.svg` to a 1200x630 PNG and update the `og:image` tag before launch.
+
