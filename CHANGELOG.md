@@ -189,11 +189,13 @@ Also decide on the Google Fonts CDN issue above before launch.
 - **Diff reviewed:** `main` does not exist on the remote, so the diff was taken
   against the root commit `cab5b7e`. Changed files: `index.html`, `contact.html`
   (comments and `og:` tags only) and `CHANGELOG.md`. `styles.css` and
-  `script.js` are unchanged.
+  `script.js` were unchanged at that point; `styles.css` changed later in the
+  contrast follow-up.
 
 ### Fixes made
 
-None. Every hard check passed, so no `review: <fix>` commits were needed.
+None from the hard checks: every one passed. One fix was made afterwards, in
+the contrast follow-up below: `--accent` changed to `#b8341a` in `styles.css`.
 
 Checks run: hero line exact; one H1 per page; zero banned words; every field ID
 in `script.js` exists in `contact.html`; `[FORM ENDPOINT]` present and
@@ -217,13 +219,9 @@ this project.
 
 ### Open items left in place, and why
 
-1. **Colour contrast (found in this review, not in the earlier pass).**
-   White text on the accent button measures 3.95:1, and accent-coloured small
-   text (eyebrow, step numbers) on the paper background measures 3.62:1. Both
-   are below the WCAG AA 4.5:1 minimum for small text. The large result
-   figures pass the 3:1 large-text bar. Not in the hard checks, and the accent
-   is labelled a placeholder in `styles.css`, so this is a brand decision.
-   Darkening `--accent` is a one-line fix once a final colour is chosen.
+1. **Colour contrast: resolved** (see "Contrast follow-up" below). This was
+   open when the review began: white on the accent button measured 3.95:1 and
+   accent small text on paper measured 3.62:1, both under WCAG AA 4.5:1.
 2. **The source of truth was written by Cline, not supplied by the client.**
    `PROJECT_BRIEF.md`, `.clinerules` and the banned-word list were authored
    during the build run because none existed. "Zero banned words" is therefore
@@ -232,9 +230,12 @@ this project.
 3. **Placeholder links are dead until replaced.** `mailto:[EMAIL]`,
    `[SOCIAL URL]` (x2) and `[BOOKING URL]` are intentional placeholders. They
    are expected, but they must be replaced before launch.
-4. **No `main` branch on the remote.** `ypc-ux/my-agency-site` was empty when
-   it was used as `origin`, so a pull request has no base branch yet. This
-   review did not create or push `main`.
+4. **No `main` branch on the remote: addressed in the follow-up.**
+   `ypc-ux/my-agency-site` was empty when it was used as `origin`. `main` is
+   created by `git push origin site/v1-review:main` as the last step of the
+   follow-up, from the same commit as this note. Because `main` and
+   `site/v1-review` then point at the same commit, a pull request between them
+   would be empty until new commits land on the branch.
 5. **Repo name mismatch.** The remote is named `my-agency-site`, not
    `installbeliefs.com`. Confirm this is the intended home for the site.
 6. **Commit order.** Steps 1 and 2 appear as step 2, then step 1 in history.
@@ -251,7 +252,50 @@ live until:
 1. Every bracketed placeholder is replaced with real client content (list above).
 2. `[FORM ENDPOINT]` is wired to a real endpoint and a test submission arrives.
 3. The Google Fonts decision is made (self-host or accept).
-4. The accent colour is confirmed or darkened to meet 4.5:1.
+4. ~~The accent colour is confirmed or darkened to meet 4.5:1.~~ Done:
+   `--accent` is `#b8341a`. The client can still choose a different brand
+   colour, but any replacement must keep 4.5:1 against `#f7f5f0` and `#ffffff`.
 5. The brief and banned-word list are confirmed by the client.
-6. A `main` branch exists to merge into.
+6. ~~A `main` branch exists to merge into.~~ Created in the follow-up.
+
+### Contrast follow-up
+
+**Change:** `--accent` in `styles.css` changed from `#e5492b` to `#b8341a`
+(commit `review: darken accent to #b8341a for AA contrast`). One line changed.
+
+**Method:** headless Chromium, both pages at 1280px. For every visible text
+element I read the computed text colour and walked up the DOM to the first
+opaque background. I also forced the hidden success message and the empty error
+messages to show, and measured primary and ghost button hover states. Large text
+(24px, or 18.66px and bold) needs 3:1; everything else needs 4.5:1.
+
+**Result: 31 distinct text/background pairs, 0 below threshold.**
+
+| Pair | Before | After | Needed |
+|---|---|---|---|
+| White on accent (primary button) | 3.95 | 5.93 | 4.5 |
+| Accent on paper `#f7f5f0` (eyebrow, step numbers) | 3.62 | 5.44 | 4.5 |
+| Accent on white (result figures, large) | not measured | 5.93 | 3 |
+| Primary button on hover (white on `#111111`) | not measured | 18.88 | 4.5 |
+| Muted `#5c5a55` on paper / on white | 6.32 / 6.89 | unchanged | 4.5 |
+| Error red `#b3261e` on paper | 6.00 | unchanged | 4.5 |
+| Ink `#111111` on paper / white | 17.33 / 18.88 | unchanged | 4.5 |
+| Success text on `#e7f3e8` | 16.53 | unchanged | 4.5 |
+| Skip link (paper on ink) | 17.33 | unchanged | 4.5 |
+
+Focus rings use `--accent`, so they now measure 5.44 on paper and 5.93 on
+white (3:1 needed for UI indicators).
+
+**No second fix was needed**, so no other colour in `styles.css` was changed.
+
+**Not changed, logged as a suggestion (outside the text/button scope asked
+for):** the form field border `#d9d5cc` on white measures 1.46:1. WCAG 1.4.11
+asks for 3:1 on the boundary of an input when that boundary is what identifies
+it. Fields also have a label and a white fill, so this is a judgement call, and
+darkening the border changes the look of every field. Left alone per the
+decision rule on bug vs preference.
+
+**Visual note:** `#b8341a` is a deeper, browner red-orange than `#e5492b`, so
+the buttons and eyebrow text will look less bright. Contrast was measured, not
+visually reviewed after the change.
 
