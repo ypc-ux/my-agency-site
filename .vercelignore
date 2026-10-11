@@ -1,0 +1,11 @@
+# Internal files: kept in git, not served by Vercel.
+# The site needs: index.html, contact.html, 404.html, styles.css, script.js,
+# robots.txt, sitemap.xml, og-image.png, og-image.svg, vercel.json. Never list those.
+/.clinerules
+/CHANGELOG.md
+/CLINE_TASKS.md
+/PRICING_MODEL.md
+/PROJECT_BRIEF.md
+/PR_DESCRIPTION.md
+/docs/
+/.cursor/
