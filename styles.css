@@ -233,6 +233,11 @@ section { padding: var(--space-6) 0; border-top: 1px solid var(--rule); }
   display: grid;
   gap: var(--space-3);
 }
+/* Honeypot: moved here from an inline style so the CSP can drop 'unsafe-inline'. */
+.contact-form input[name="company_website"] {
+  position: absolute;
+  left: -9999px;
+}
 .field { display: grid; gap: var(--space-1); }
 .field label { font-weight: 500; }
 .field input,
