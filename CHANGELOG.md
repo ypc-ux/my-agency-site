@@ -350,3 +350,59 @@ visually reviewed after the change.
 
 `og-image.svg` is the share image. Some platforms (X, WhatsApp, LinkedIn, Facebook) don't render SVG previews. Export `og-image.svg` to a 1200x630 PNG and update the `og:image` tag before launch.
 
+---
+
+## Cursor launch prep
+
+Branch: `cursor/launch-prep`. Existing copy, design, and layout were left as they were except where a task required a new message or a new file. No new CSS was added to `styles.css` (the honeypot is hidden with an inline style, and the new form error reuses `.error`).
+
+### Changes by file
+
+- `script.js` — After the existing validation passes, a submit whose action still contains `[FORM ENDPOINT]` shows "This form isn't set up yet." and does not send. A real action is sent with `fetch` POST and `Content-Type: application/json`, using the named fields and omitting `company_website`. The button reads "Sending..." while the request runs, then returns to "Send inquiry". Success is shown only when `response.ok`, then the form resets. A failed or non-ok response shows "This didn't send. Email [address]." using the first `mailto:` link in the footer. A filled honeypot returns with no message and no request.
+- `contact.html` — Hidden honeypot `company_website` (must stay empty). Form-level alert `#form-error`. Favicon (lowercase "i" in `#b8341a`). `og:image` pointing at `https://[DOMAIN]/og-image.svg`. Inventory comment lists the honeypot and `[DOMAIN]`. `[FORM ENDPOINT]` is unchanged.
+- `index.html` — Same favicon and `og:image`. Inventory comment lists `[DOMAIN]`. Hero line unchanged.
+- `404.html` — New. One H1, "Page not found.", and a link to `index.html`. Header and footer follow `contact.html` so off-home nav links point at `index.html#services`, `#work`, and `#process`.
+- `robots.txt` — Allow all, plus `Sitemap: https://[DOMAIN]/sitemap.xml`.
+- `sitemap.xml` — Home and `contact.html` only. `404.html` is excluded.
+- `og-image.svg` — 1200x630. Paper `#f7f5f0`, accent `#b8341a`, ink `#111111`. Site name `[AGENCY NAME]` and the exact hero line. Generic serif stack, no external fonts.
+- `CHANGELOG.md` — This section, plus the share-image note above it.
+
+### Decisions
+
+- **404 chrome follows contact.html.** Index and contact footers differ. A non-home page needs `index.html#...` anchors, which is the contact pattern. Reason: relative `#services` on the 404 page would not resolve.
+- **Read `getAttribute("action")`, not the DOM `action` property.** The property turns `[FORM ENDPOINT]` into a resolved URL, so the placeholder check would never see it. Reason: the placeholder has to stay detectable and untouched.
+- **Footer email is read at runtime.** The failure message uses the first footer `mailto:` and does not contain a hardcoded address. Reason: the address is still `[EMAIL]`.
+- **No new stylesheet rules.** The ~40-line limit was not approached. Reason: existing `.error` already shows and hides the alert.
+- **Verification found nothing to fix.** Headless Chrome, with network blocked, checked one H1 per page, the exact hero line, relative links, and the form cases (empty name, empty company, invalid email, empty building, placeholder action with no request, real URL POST as JSON, filled honeypot sends nothing, non-ok and network failure show the footer email). Reason: every check passed.
+
+### Not done, and why
+
+- **`privacy.html` was not created.** That task is Tearsmith-only. This repo is installbeliefs (`PROJECT_BRIEF.md` is present). There is no consent checkbox to retarget.
+- **`og-image.svg` was not exported to PNG.** Some platforms (X, WhatsApp, LinkedIn, Facebook) don't render SVG previews. Export `og-image.svg` to a 1200x630 PNG and update the `og:image` tag before launch.
+- **No second repo was in the task.** Only `https://github.com/ypc-ux/my-agency-site.git` was given.
+
+### Placeholders still to replace
+
+- `[AGENCY NAME]`
+- `[EMAIL]`
+- `[BOOKING URL]`
+- `[FORM ENDPOINT]`
+- `[SERVICE 1]`
+- `[SERVICE 2]`
+- `[SERVICE 3]`
+- `[SERVICE 4]`
+- `[One sentence describing what this service delivers.]`
+- `[CLIENT A]`
+- `[CLIENT B]`
+- `[CLIENT C]`
+- `[Describe the market problem in one or two sentences.]`
+- `[RESULT %]`
+- `[RESULT METRIC]`
+- `[SOCIAL URL]`
+- `[RANGE 1]`
+- `[RANGE 2]`
+- `[RANGE 3]`
+- `[RANGE 4]`
+- `[DOMAIN]`
+- `company_website` honeypot (must stay empty; do not give it a value)
+
