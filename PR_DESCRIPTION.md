@@ -2,7 +2,7 @@
 
 **Branch:** `cursor/launch-prep`
 **Base:** `main`
-**Commit count:** 11 (`git rev-list --count main..HEAD`, including this description)
+**Commit count:** 11 (`git rev-list --count main..HEAD`, including the commit that fixes this line)
 **Recommendation:** Not ready to merge. The content update (agency name, services, budget ranges, Work section) is not on `main` yet. Do not merge until it lands and the open items below are done.
 
 ## What changed
