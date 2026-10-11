@@ -344,3 +344,32 @@ accent outline still appears. Logged as a suggestion, not a bug.
 the buttons and eyebrow text will look less bright. Contrast was measured, not
 visually reviewed after the change.
 
+
+---
+
+## Content update
+
+**Branch:** `main`. The wording below was supplied by the site owner. It overrides the "keep every placeholder" and "no invented content" rules for these items only.
+
+### Changes by file
+
+- `index.html`, `contact.html`: every `[AGENCY NAME]` replaced with lowercase `installbeliefs` in the logo, title tags, meta description, Open Graph tags, footer and inventory comment. There are no images, so no alt text changed.
+- `index.html`: the four service cards now read as supplied. Titles: Diagnose & Position Sprint, Launch Campaign, Creative Retainer, Embedded Partner. No prices appear on this page.
+- `index.html`: the "Selected work" section is removed. No real client results exist, and no substitute proof was added.
+- `index.html`, `contact.html`: the "Work" nav link is removed from both pages, including `index.html#work` on the contact page.
+- `index.html`: hero secondary button changed from "See our work" (`#work`) to "See how we work" (`#process`).
+- `contact.html`: budget options replaced with Under $15,000, $15,000 to $50,000, $50,000 to $150,000 and $150,000 or more.
+- `index.html`, `contact.html`: placeholder-inventory comments now list only what is left.
+
+### Decisions
+
+- **Work-section CSS left in `styles.css`.** The `.case-client`, `.case-result` and `.work .card-grid` rules no longer match anything. They are harmless, and removing them is outside the content update. Safe to delete later.
+- **Budget ranges are on the contact page only.** They are a form choice, not a price list, and no price appears on the home page.
+- **Banned-word check** ran on visible copy of both pages against `.clinerules`: no matches in the supplied wording.
+
+### Placeholders still left
+
+- `[EMAIL]` (index, contact)
+- `[SOCIAL URL]` (index)
+- `[BOOKING URL]` (contact)
+- `[FORM ENDPOINT]` (contact)
