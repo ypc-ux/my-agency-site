@@ -74,6 +74,7 @@ if (form) {
       if (key === "company_website") return;
       payload[key] = value;
     });
+    payload._captcha = "false";
 
     if (submitBtn) {
       submitBtn.disabled = true;
