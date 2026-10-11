@@ -531,3 +531,48 @@ Headless Chromium, network blocked, 50 checks, 0 failures: hero H1 exact; one H1
 - `[BOOKING URL]` (contact)
 - `[FORM ENDPOINT]` (contact)
 - `company_website` honeypot (must stay empty)
+
+---
+
+## Real values
+
+- **Branch:** `content/real-values` (from `main` at `7ce72db`)
+- **Date:** 2026-10-11
+
+### Changes
+
+- `index.html`, `contact.html`, `404.html`: `[EMAIL]` replaced with `jry@secria.me` (mailto links and visible text).
+- `contact.html`: `[BOOKING URL]` replaced with `https://calendar.app.google/qbDW3M26PKF1a4yp6`.
+- `contact.html`: `[FORM ENDPOINT]` replaced with `https://formsubmit.co/ajax/jry@secria.me`.
+- `index.html`: `[SOCIAL URL]` replaced with `https://www.linkedin.com/in/juliusy3/` (LinkedIn) and `https://x.com/juliusxyoung` (X).
+- `script.js`: added `Accept: "application/json"` to the fetch headers, next to `Content-Type`. Nothing else changed. The `[FORM ENDPOINT]` guard is untouched.
+- `index.html`, `contact.html`, `404.html`: placeholder-inventory comments now say none remain.
+- `robots.txt`, `sitemap.xml`: contain no placeholders, so no change.
+
+### Decisions
+
+- **FormSubmit instead of Formspree.** No Formspree URL was supplied and the owner asked for a free alternative. FormSubmit needs no registration, has unlimited free submissions, and supports cross-origin AJAX at `/ajax/<email>` (formsubmit.co/documentation, checked 2026-10-11).
+- **JSON body is not confirmed in their docs.** The documentation shows a form-encoded AJAX example only. The JSON POST with `Accept: application/json` follows the owner's instruction and was verified against a mocked fetch only, not against the live service.
+- **The email address is in the form action URL.** It is already public in the page footer, so nothing new is exposed. FormSubmit also offers a random-string alias ("invisible emails", sent after you confirm the address) if you want it out of the URL.
+
+### Needs the owner before launch
+
+- **FormSubmit activation.** The first real submission triggers an email to `jry@secria.me` asking you to confirm. Submit the live form once and confirm. No request was sent to the endpoint while preparing this change.
+- **Captcha.** FormSubmit enables reCAPTCHA by default and offers a `_captcha=false` field to turn it off. The docs don't say how captcha behaves with AJAX posts, and it was not tested because no real request was allowed. If the first live submission fails, try a hidden `_captcha` field set to `false`. FormSubmit recommends keeping captcha on.
+- **Spam filtering.** The site's own `company_website` honeypot is kept. FormSubmit's own honeypot field is named `_honey` and is not used.
+- **New external host.** `formsubmit.co` is contacted when the form is submitted. Add it to `connect-src` if a Content-Security-Policy is added later.
+
+### Not changed
+
+- The guard in `script.js` matches the literal `[FORM ENDPOINT]` only. It does not catch other bracketed placeholders. Left as is because the `script.js` change was limited to the Accept header.
+
+### Verification
+
+- Hero line exact; one H1 per page; relative links and anchors resolve; both sitemap pages exist.
+- No bracketed placeholders left in any site file.
+- The only external hosts in site files are Google Fonts and the new FormSubmit endpoint (plus the booking, LinkedIn and X links).
+- Mocked-fetch form test: the real URL receives a JSON POST with `Content-Type` and `Accept` set to `application/json`; a `[FORM ENDPOINT]` action shows an error and sends nothing; a filled honeypot sends nothing; a failed response shows the footer email.
+
+### Placeholders still left
+
+- None in the site files. The `company_website` honeypot is not a placeholder; it must stay empty.

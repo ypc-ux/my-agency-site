@@ -85,7 +85,7 @@ if (form) {
     // Named fields as JSON. The format may need to change to match the endpoint provider.
     fetch(action, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(payload),
     })
       .then((response) => {
