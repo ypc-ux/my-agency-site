@@ -1,10 +1,8 @@
 <!--
 PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
-- [AGENCY NAME]  (title, og:title, og:description, logo, footer)
 - [EMAIL]  (intro "Prefer email?" link + footer)
 - [BOOKING URL]  (intro "book a call directly" link)
 - [FORM ENDPOINT]  (form action below)
-- [RANGE 1], [RANGE 2], [RANGE 3], [RANGE 4]  (budget select options)
 - company_website honeypot (hidden input; must stay empty)
 -->
 <!DOCTYPE html>
@@ -12,10 +10,10 @@ PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact | [AGENCY NAME]</title>
-  <meta name="description" content="Tell us what you're building and book a call with [AGENCY NAME].">
-  <meta property="og:title" content="Contact | [AGENCY NAME]">
-  <meta property="og:description" content="Tell us what you're building and book a call with [AGENCY NAME].">
+  <title>Contact | installbeliefs</title>
+  <meta name="description" content="Tell us what you're building and book a call with installbeliefs.">
+  <meta property="og:title" content="Contact | installbeliefs">
+  <meta property="og:description" content="Tell us what you're building and book a call with installbeliefs.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://installbeliefs.com/contact.html">
   <meta property="og:image" content="https://installbeliefs.com/og-image.svg">
@@ -31,10 +29,9 @@ PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="logo" href="index.html">[AGENCY NAME]</a>
+      <a class="logo" href="index.html">installbeliefs</a>
       <nav class="site-nav" aria-label="Primary">
         <a href="index.html#services">Services</a>
-        <a href="index.html#work">Work</a>
         <a href="index.html#process">Process</a>
         <a href="contact.html" aria-current="page">Contact</a>
       </nav>
@@ -80,10 +77,10 @@ PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
             <label for="budget">Budget range</label>
             <select id="budget" name="budget">
               <option value="">Select a range</option>
-              <option value="range-1">[RANGE 1]</option>
-              <option value="range-2">[RANGE 2]</option>
-              <option value="range-3">[RANGE 3]</option>
-              <option value="range-4">[RANGE 4]</option>
+              <option value="range-1">Under $15,000</option>
+              <option value="range-2">$15,000 to $50,000</option>
+              <option value="range-3">$50,000 to $150,000</option>
+              <option value="range-4">$150,000 or more</option>
             </select>
           </div>
 
@@ -97,7 +94,7 @@ PLACEHOLDERS TO REPLACE (every bracketed placeholder still in this file):
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <p>&copy; <span id="year"></span> [AGENCY NAME]</p>
+      <p>&copy; <span id="year"></span> installbeliefs</p>
       <p><a href="mailto:[EMAIL]">[EMAIL]</a></p>
     </div>
   </footer>
