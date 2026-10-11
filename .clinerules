@@ -1,0 +1,56 @@
+# .clinerules — installbeliefs.com
+
+> **Provenance:** Created 2026-10-11 as part of the from-scratch project setup
+> approved for the site/v1-review run. Hard rules and decision rules below are
+> taken from the task instructions for that run. The banned-word list was NOT
+> supplied with the task (none exists in the original materials) — the list
+> below was written by Cline so the plain-language pass has something concrete
+> to check against. If a client-provided list ever arrives, it overrides this one.
+
+## Source of truth
+
+- `PROJECT_BRIEF.md` is the source of truth. If the brief and the code
+  disagree, follow the brief and log the change.
+- Never guess the contents of PROJECT_BRIEF.md if it is missing — stop and
+  report instead.
+
+## Hard rules (never break these)
+
+1. The hero line must read exactly: "We install beliefs in your market."
+2. Do not invent client names, metrics, testimonials, logos, team members, or
+   prices. Keep every bracketed placeholder as written.
+3. No frameworks, build tools, npm packages, analytics, tracking scripts, or
+   third-party embeds.
+4. Do not delete or rename any file.
+5. Only edit index.html, contact.html, styles.css, and script.js, plus
+   CHANGELOG.md. Do not edit PROJECT_BRIEF.md, .clinerules, PRICING_MODEL.md,
+   or CLINE_TASKS.md.
+6. Do not expand scope: no new pages, sections, services, or pricing on the site.
+7. Never force push. Never rewrite history. Never commit secrets or credentials.
+
+## Decision rules
+
+- Brief vs. code disagreement → follow the brief, log the change.
+- Banned buzzword found → replace with plain language that keeps the same
+  meaning; log old and new text.
+- A fix needs more than about 15 lines of CSS → don't make it; log it as an issue.
+- Unsure whether something is a bug or a preference → leave it alone, log it as
+  a suggestion.
+
+## Banned-word list (plain-language pass)
+
+leverage · seamless · cutting-edge · empower · unlock · revolutionize ·
+game-changing · game-changer · best-in-class · world-class · next-level ·
+disruptive · synergy · robust · holistic · elevate · supercharge · transformative ·
+visionary · unrivaled · unparalleled · sky's the limit · 10x · disruptive ·
+delve · dive deep · unleash · harness · amplify · journey · landscape · ecosystem ·
+synergize · paradigm · mission-critical · state-of-the-art · groundbreaking
+
+Rewrite any match in visible copy with plain wording that keeps the same
+meaning, and log before/after in CHANGELOG.md.
+
+## Git
+
+- Work only on branch `site/v1-review`. Commit format: `step N: <short description>`.
+- Push with `git push -u origin site/v1-review`. Never push to main, never
+  force push, never rewrite history.

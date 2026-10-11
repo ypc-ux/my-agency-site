@@ -1,0 +1,150 @@
+<!--
+PLACEHOLDERS TO REPLACE:
+- [AGENCY NAME]
+- [EMAIL]
+- [BOOKING URL]
+- [CLIENT A], [CLIENT B], [CLIENT C]
+- [RESULT %], [RESULT METRIC]
+- [SERVICE 1] to [SERVICE 4] names and descriptions
+- [SOCIAL URL] links in footer
+- [FORM ENDPOINT] on contact.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[AGENCY NAME] | We install beliefs in your market.</title>
+  <meta name="description" content="A creative agency for startups and tech companies that shapes how the market perceives, remembers, and chooses your brand.">
+  <meta property="og:title" content="[AGENCY NAME] | We install beliefs in your market.">
+  <meta property="og:description" content="Creative agency for startups and tech companies.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://installbeliefs.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">[AGENCY NAME]</a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#process">Process</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <section class="hero">
+      <div class="container">
+        <p class="eyebrow">Creative agency for startups and tech</p>
+        <h1>We install beliefs in your market.</h1>
+        <p class="lead">For founders and tech leaders from seed to Series B who need a brand the market remembers, believes, and chooses. We build the positioning, creative, and launch that change what people think about your company.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="contact.html">Book a call</a>
+          <a class="btn btn-ghost" href="#work">See our work</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="problem">
+      <div class="container narrow">
+        <h2>Good products lose to louder competitors.</h2>
+        <p>Most startups don't lose because their product is weak. They lose because the market never formed a clear belief about why they matter. We fix that before we make anything pretty.</p>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="container">
+        <h2>What we do</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3>[SERVICE 1]</h3>
+            <p>[One sentence describing what this service delivers.]</p>
+          </article>
+          <article class="card">
+            <h3>[SERVICE 2]</h3>
+            <p>[One sentence describing what this service delivers.]</p>
+          </article>
+          <article class="card">
+            <h3>[SERVICE 3]</h3>
+            <p>[One sentence describing what this service delivers.]</p>
+          </article>
+          <article class="card">
+            <h3>[SERVICE 4]</h3>
+            <p>[One sentence describing what this service delivers.]</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="work" id="work">
+      <div class="container">
+        <h2>Selected work</h2>
+        <div class="card-grid">
+          <article class="card case">
+            <p class="case-client">[CLIENT A]</p>
+            <h3>Challenge</h3>
+            <p>[Describe the market problem in one or two sentences.]</p>
+            <p class="case-result"><strong>[RESULT %]</strong> [RESULT METRIC]</p>
+          </article>
+          <article class="card case">
+            <p class="case-client">[CLIENT B]</p>
+            <h3>Challenge</h3>
+            <p>[Describe the market problem in one or two sentences.]</p>
+            <p class="case-result"><strong>[RESULT %]</strong> [RESULT METRIC]</p>
+          </article>
+          <article class="card case">
+            <p class="case-client">[CLIENT C]</p>
+            <h3>Challenge</h3>
+            <p>[Describe the market problem in one or two sentences.]</p>
+            <p class="case-result"><strong>[RESULT %]</strong> [RESULT METRIC]</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="process">
+      <div class="container">
+        <h2>How we work</h2>
+        <ol class="steps">
+          <li><span class="step-num">01</span><h3>Diagnose</h3><p>We find what the market currently believes about you and where that belief is weak.</p></li>
+          <li><span class="step-num">02</span><h3>Position</h3><p>We define the one belief worth installing and the story that carries it.</p></li>
+          <li><span class="step-num">03</span><h3>Create</h3><p>We build the creative system: messaging, visuals, and content that repeat the belief.</p></li>
+          <li><span class="step-num">04</span><h3>Launch</h3><p>We put the work in front of the right people and measure whether the belief is taking hold.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="container narrow">
+        <h2>Ready to install a belief?</h2>
+        <p>Tell us what you're building. We'll tell you honestly whether we can help.</p>
+        <a class="btn btn-primary" href="contact.html">Book a call</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year"></span> [AGENCY NAME]</p>
+      <p><a href="mailto:[EMAIL]">[EMAIL]</a></p>
+      <p class="socials">
+        <a href="[SOCIAL URL]">LinkedIn</a>
+        <a href="[SOCIAL URL]">X</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
