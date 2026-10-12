@@ -644,3 +644,28 @@ Before this change, `www.installbeliefs.com` and `installbeliefs.com` both serve
 - **Live behaviour.** This was not tested against a deployment. After merging, check that `curl -sI https://www.installbeliefs.com/contact.html` returns a 308 with `location: https://installbeliefs.com/contact.html`, and that the apex still returns 200.
 - **Query strings.** The `$1` capture covers the path. Vercel normally carries the query string through on a redirect, but that was not tested.
 - **Permanent redirect.** Browsers cache a 308, so reversing this later can take time to reach returning visitors.
+
+---
+
+## Narrative bible pass
+
+- **Branch:** `narrative/bible-pass` (from `main` at `213b2b9`)
+- **Date:** 2026-10-11
+
+### Changes
+
+- `docs/MARKETING_NARRATIVE.md` (new): audit, diagnostic, copy options, proof plan, open questions. Source rules are cited by name or number only.
+- `index.html`, problem section paragraph. Rule: WDB checklist (every claim traceable), IB 16 (ethics line).
+  - Before: "Most startups don't lose because their product is weak. They lose because the market never formed a clear belief about why they matter. We fix that before we make anything pretty."
+  - After: "A startup can have a strong product and still lose. The market never formed a clear belief about why it matters. We fix that before we make anything pretty."
+  - Why: "Most startups" is a statistic-shaped claim with no source. The new text makes no count claim.
+
+### Not changed
+
+- Hero line, service names, contact details, form logic, `script.js`, `vercel.json`, `styles.css`.
+- All other audit findings have more than one reasonable fix, so they are options in the narrative document, not code changes.
+- Palette, type and weight rules need more than 40 lines of CSS or an owner decision. Logged as recommendations in section 9 of the narrative document.
+
+### Decisions needed
+
+See section 11 of `docs/MARKETING_NARRATIVE.md` (Q1 to Q9).
