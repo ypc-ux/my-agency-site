@@ -669,3 +669,62 @@ Before this change, `www.installbeliefs.com` and `installbeliefs.com` both serve
 ### Decisions needed
 
 See section 11 of `docs/MARKETING_NARRATIVE.md` (Q1 to Q9).
+
+---
+
+## Design pass
+
+- **Branch:** `design/bible-implementation` (from `main` at `2246191`)
+- **Date:** 2026-10-12
+- **Plan:** `docs/DESIGN_PASS_PLAN.md`. Rules are cited by name or number only.
+
+### styles.css (rules: IB 4.2 minimum body size, IB 4.2 three weights)
+
+| Selector | Before | After |
+|---|---|---|
+| `.site-nav a` font-size | 0.95rem | 1rem |
+| `.step-num` font-size | 0.95rem | 1rem |
+| `.error` font-size | 0.9rem | 1rem |
+| `.site-footer` font-size | 0.95rem | 1rem |
+| `.field label` font-weight | 500 | 600 |
+
+Effect: the contact page goes from four font weights (400, 500, 600, 800) to three (400, 600, 800). Only the eyebrow label (13.6px) is still under 16px. Net change: 5 lines edited, none added.
+
+### index.html and contact.html (rules: WDB CTA formula, WDB Four Horsemen, Voice 3)
+
+| Element | Before | After |
+|---|---|---|
+| Hero primary button | Book a call | Book my call |
+| Closing button | Book a call | Book my call |
+| Services heading | What we do | What you get |
+| Process heading | How we work | What happens, step by step |
+| Contact submit button | Send inquiry | Send my details |
+
+The button still submits the same form. Its `type`, the form `action`, and every field ID and name are unchanged.
+
+### index.html (rules: WDB Voice 4, IB 15, WDB principle 8)
+
+- Sprint card
+  - Before: "Four weeks to learn what your market believes about you, choose the one belief worth installing, and leave with messaging and your first ten assets."
+  - After: "Four weeks. We learn what your market believes about you and choose the one belief worth installing. You leave with messaging and your first ten assets."
+  - Same facts. One 25-word sentence became three short ones.
+- Launch Campaign card
+  - Before: "Creative, content, and paid creative for a product or company launch, with a review of what landed after 60 days."
+  - After: "Creative, content, and paid creative for a product or company launch. After 60 days, we review what landed."
+  - Same facts. The 60-day review is kept as written. It still needs owner confirmation (open question Q1 in the narrative document).
+
+### Checked, no change needed
+
+- Anchor spacing at 375, 768 and 1280px: headings land 86px or more below the sticky header after a jump.
+- Contrast: 27 distinct text and border pairs measured, none below threshold. Smallest text margin 5.44:1 (needs 4.5). Smallest input border 3.29:1 (needs 3).
+- Focus: a 3px accent outline shows on links, buttons and fields.
+- Horizontal overflow: none on any page at 375, 768 or 1280px.
+
+### Not changed
+
+- Hero line, the four service names, contact details, `script.js`, `vercel.json`, form field IDs and names, the form action.
+- Palette, heading font, hero size, eyebrow size, link target heights, larger CTAs: owner decisions, listed in the plan under "Optional, my decision".
+
+### Rules that cannot be met honestly yet
+
+Proof, trust zones, counters, reviews, offer price and guarantee, a numbered hero hook, real photos, phone CTAs. No real material exists, and no prices may show.

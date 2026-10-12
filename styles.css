@@ -127,7 +127,7 @@ a { color: inherit; }
 }
 .site-nav a {
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   padding: 0.25rem 0;
   color: var(--muted);
 }
@@ -212,7 +212,7 @@ section { padding: var(--space-6) 0; border-top: 1px solid var(--rule); }
 .steps li { border-top: 2px solid var(--ink); padding-top: var(--space-2); }
 .step-num {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--accent);
   font-weight: 600;
 }
@@ -239,7 +239,7 @@ section { padding: var(--space-6) 0; border-top: 1px solid var(--rule); }
   left: -9999px;
 }
 .field { display: grid; gap: var(--space-1); }
-.field label { font-weight: 500; }
+.field label { font-weight: 600; }
 .field input,
 .field textarea,
 .field select {
@@ -264,7 +264,7 @@ section { padding: var(--space-6) 0; border-top: 1px solid var(--rule); }
 }
 .error {
   color: #b3261e;
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin: 0;
   min-height: 0;
 }
@@ -282,7 +282,7 @@ section { padding: var(--space-6) 0; border-top: 1px solid var(--rule); }
 .site-footer {
   border-top: 1px solid var(--rule);
   padding: var(--space-4) 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 .footer-inner {
