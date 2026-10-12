@@ -728,3 +728,57 @@ The button still submits the same form. Its `type`, the form `action`, and every
 ### Rules that cannot be met honestly yet
 
 Proof, trust zones, counters, reviews, offer price and guarantee, a numbered hero hook, real photos, phone CTAs. No real material exists, and no prices may show.
+
+---
+
+## Minimal editorial redesign, burgundy palette
+
+- **Branch:** `design/minimal-burgundy` (from `main` at `507863b`)
+- **Date:** 2026-10-12
+- **Choices made by the owner:** the Minimal editorial layout, and palette B1 (burgundy on ivory).
+
+### Palette (styles.css tokens and favicon)
+
+| Token | Before | After |
+|---|---|---|
+| `--ink` | #111111 | #1c1416 |
+| `--paper` | #f7f5f0 | #faf7f4 |
+| `--muted` | #5c5a55 | #5e5256 |
+| `--rule` | #d9d5cc | #d8d0cb |
+| `--input-border` | #8a8780 | #857a7d |
+| `--accent` | #b8341a | #7a1f35 |
+
+The favicon fill in all three HTML files changed from `#b8341a` to `#7a1f35`.
+
+### Type
+
+- Display font changed from Fraunces to Instrument Serif. Body stays Inter.
+- Weights loaded: Inter 400 and 600 only. Instrument Serif has one weight. Every page now uses at most two weights (the contact page had three).
+- The font link in all three pages changed to `family=Instrument+Serif&family=Inter:wght@400;600`. Both families still load from Google Fonts, so `font-src` in `vercel.json` is unchanged.
+
+### Layout (styles.css only)
+
+- Headings: weight 400, tighter line height. H1 now scales up to 8rem (was 4rem). The contact page H1 is capped at 5.5rem.
+- Header: bottom border removed. Nav links are ink, with the burgundy accent on hover and for the current page.
+- Sections: 2px ink rule between sections.
+- Service cards and process steps: boxes removed. Both are now numbered rows between 1px ink rules. Three columns on desktop, two on mobile.
+- Problem section: two columns from 768px.
+- Corners: `--radius` is 0.
+- Buttons: larger padding.
+- Narrow sections (problem, closing, 404) align to the same left edge as the other headings.
+
+### Not changed
+
+HTML structure and copy (apart from the font links and favicon colour), `script.js`, `vercel.json`, `.vercelignore`, form IDs, names and action, the hero line, the four service names, contact details.
+
+### Checked
+
+- Contrast: 26 distinct text and border pairs measured, none below threshold. Accent on paper is 9.48:1. The input border measures 3.88:1 on the page background and 4.14:1 on white, against 3:1 needed.
+- No horizontal overflow at 375, 768 and 1280px on any page. One H1 per page.
+- Headings share one left edge at 375, 768, 1280 and 1600px.
+
+### Not done
+
+- The eyebrow label is 13.6px. It is a label, not body text (see the design plan, O4).
+- The contact form budget options are still dollar amounts (owner question Q3).
+- Hover and focus states were measured for contrast but not reviewed visually.
