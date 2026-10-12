@@ -20,7 +20,7 @@ The sources give no numeric line-length rule and no spacing scale for this kind 
 | 3 | WDB Voice 4, IB 15, WDB principle 8 (rhythm): short sentences | `index.html`: Sprint card, one 25-word sentence | Three short sentences. Same meaning. No new claim. |
 | 4 | WDB CTA formula (first-person verb) | `index.html`: two "Book a call" buttons. `contact.html`: "Send inquiry" | "Book my call" (both), "Send my details". |
 | 5 | WDB Four Horsemen (vague header), Voice 3 (second person) | `index.html`: "What we do", "How we work" | "What you get", "What happens, step by step". Both are five words or fewer. |
-| 6 | WDB QA: mobile 375px test | `styles.css`: `html` scroll padding | The sticky header is 81px at 375px but scroll padding is 72px, so anchored headings land under it. Padding is raised to clear it. |
+| 6 | WDB QA: mobile 375px test | `styles.css`: `html` scroll padding | Planned because the header is 83px at 375px and scroll padding is 72px. Measured after the jump: headings land 86px below the header at 375px and 104px at 768 and 1280px. No change needed. Dropped. |
 | 7 | WDB checklist and selection algorithm: AA contrast | all pages | Re-measured. No change expected. Text 4.5:1, borders and inputs 3:1. |
 | 8 | Accessibility: focus, one H1, anchors | all pages | Re-verified. No change expected. |
 
